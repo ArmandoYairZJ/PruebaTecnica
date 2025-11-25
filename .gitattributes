@@ -1,0 +1,41 @@
+# --- Normalización de texto ---
+* text=auto
+
+# --- Scripts ---
+*.sh  text eol=lf
+*.bash text eol=lf
+*.bat text eol=crlf
+
+# --- Archivos de configuración ---
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.env  text eol=lf
+
+# --- Código fuente ---
+*.py  text eol=lf
+*.js  text eol=lf
+*.ts  text eol=lf
+*.go  text eol=lf
+*.java text eol=lf
+*.c   text eol=lf
+*.cpp text eol=lf
+*.cs  text eol=lf
+
+# --- Markdown / Documentación ---
+*.md  text eol=lf
+*.txt text eol=lf
+
+# --- Archivos binarios (no tocar saltos de línea) ---
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz  binary
+*.tar binary
+*.mp4 binary
+*.mov binary
