@@ -18,6 +18,5 @@
 **/.mypy_cache
 **/.dockerignore
 **/docker-compose*.yml 
-**/Dockerfile*
 **/README.md
 **/.gitignore
