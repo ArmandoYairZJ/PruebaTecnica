@@ -107,6 +107,9 @@ env.bak/
 venv.bak/
 .env
 
+# alembic
+alembic.ini
+
 # Spyder project settings
 .spyderproject
 .spyproject
