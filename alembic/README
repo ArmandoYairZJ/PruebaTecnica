@@ -1,0 +1,32 @@
+# Alembic Readme
+Esta es la documentacion de como se usa la migraciones de Alembic para la base de datos.
+
+# Configuracion de Alembic 
+1. Se tiene un archivo llamado alembic.example.ini tienes que renombrarlo para que se llame `alembic.ini`.
+
+2. Luego tendras que buscar el archivo que se llame `sqlalchemy.url` para poner tu url de base de datos.
+
+# Comandos Utiles 
+- Crear una nueva migración automáticamente:
+  ```bash
+  export RUNNING_MIGRATIONS=1
+  alembic revision --autogenerate -m "mensaje de la migración"
+  ```
+
+- Aplicar la última migración:
+  ```bash
+  export RUNNING_MIGRATIONS=1
+  alembic upgrade head
+  ```
+
+- Ejemplo de migracion 
+1. ```export RUNNING_MIGRATIONS=1 ``` - Si ya lo hiciste la primera vez no volver a hacer
+2. alembic revision --autogenerate -m "una breve descripcion de lo que se hizo"
+3. alembic upgrade head - Para subir los cambios.
+
+## Notas
+- Los modelos deben estar correctamente importados en `alembic/env.py` para que las migraciones se generen bien.
+- Revisa los archivos de migración generados antes de aplicar cambios en producción.
+- Si cambias la estructura de los modelos, recuerda crear y aplicar una nueva migración.
+- Usa la variable de entorno `RUNNING_MIGRATIONS=1` para que Alembic utilice el engine sincrónico si tu proyecto usa SQLAlchemy Async.
+- Antes de ejecutar comandos de Alembic, asegúrate de tener la base de datos accesible y la URL correcta en `alembic.ini`.

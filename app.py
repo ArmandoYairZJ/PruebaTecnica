@@ -1,12 +1,11 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from modules.core.routes import router as MainRouter
-from scalar_fastapi import  get_scalar_api_reference, Layout
+from scalar_fastapi import get_scalar_api_reference, Layout
 
 app = FastAPI(
-    docs_url=None,   
-    redoc_url=None 
+    docs_url=None,
+    redoc_url=None
 )
 
 app.add_middleware(
@@ -30,6 +29,6 @@ async def scalar_docs():
 
 @app.get("/", tags=["Root"])
 async def read_root():
-    return {"Prueba Tencnica Coppel": "API de usuarios y productos"}
+    return {"Prueba Tecnica Coppel": "API de usuarios y productos"}
 
 app.include_router(MainRouter)

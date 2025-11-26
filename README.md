@@ -7,6 +7,7 @@ Api REST para el manejo de usuarios y productos
 
 + Backend de FastAPI en Python.
 + Base de datos PostgreSQL
++ Alembic migrasion de base de datos.
 
 ## Uso de la aplicación
 
