@@ -6,9 +6,15 @@ import os
 from sqlalchemy import create_engine
 
 class Settings(BaseSettings):
+    #Base de datos
     DATABASE_URL: str
     class Config:
         env_file = ".env"
+   
+    # JWT
+    secret_key: str = "secret"
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
 
 settings = Settings()
 
