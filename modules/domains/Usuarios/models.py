@@ -12,4 +12,4 @@ class user(Base):
     rol = Column(String, index=True)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now())
-    logs = relationship("logs", back_populates="users")
+    logs = relationship("logs", back_populates="user")
