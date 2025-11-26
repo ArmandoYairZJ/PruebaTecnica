@@ -37,4 +37,4 @@ Para poder darle uso a la aplicacion se debe clonar la aplicacion, a lo que se d
 
 Cuando se ejecuta la aplicacion esta escuchando en el puerto 8080 en la dirección [0.0.0.0](0.0.0.0:8080).
 
-Pero si se esta usando lo que seria e puerto 8080 puede cambiarlo por cualquiera de los puertos que no se esten ocupando como en este que esta escuchando en el 8085.
+Pero si se esta usando lo que seria e puerto 8080 puede cambiarlo por cualquiera de los puertos que no se esten ocupando como en este que esta escuchando en el 8082.

@@ -1,21 +1,23 @@
 from pydantic import BaseModel
 from enum import Enum
+from datetime import datetime
 
 class rolEnum(Enum):
     ADMIN = "ADMIN"
     USER = "USER"
 
-class userBase(BaseModel):
-    username:str
+class UserBase(BaseModel):
+    nombre:str
     email:str
-    password:str
     rol:rolEnum
 
-class userCreate(userBase):
-    pass
+class UserCreate(UserBase):
+    password:str
 
-class user(userBase):
+class User(UserBase):
     id:int
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True
