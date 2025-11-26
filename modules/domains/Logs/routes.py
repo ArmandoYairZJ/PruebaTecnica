@@ -1,37 +1,47 @@
 from fastapi import APIRouter, Depends, HTTPException
 from modules.domains.Logs.schema import Log, LogCreate
-from modules.domains.Logs.service import create_log, get_log_by_id, get_logs, delete_log, update_log
+from modules.domains.Logs.service import (
+    create_log,
+    get_log_by_id,
+    get_logs,
+    delete_log,
+    update_log
+)
 from modules.core.config.db import get_db
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()
 
+
 @router.get("/logs", response_model=list[Log])
-def get_all_logs(db: Session = Depends(get_db)):
-    return get_logs(db)
+async def get_all_logs(db: AsyncSession = Depends(get_db)):
+    return await get_logs(db)
+
 
 @router.get("/logs/{log_id}", response_model=Log)
-def read_log(id: int, db: Session = Depends(get_db)):
-    logQuerySet = get_log_by_id(db, id)
-    if logQuerySet is None:
+async def read_log(log_id: int, db: AsyncSession = Depends(get_db)):
+    log_obj = await get_log_by_id(db, log_id)
+    if log_obj is None:
         raise HTTPException(status_code=404, detail="Log not found")
-    return logQuerySet
+    return log_obj
+
 
 @router.post("/logs", response_model=Log)
-def create_new_log(log: LogCreate, db: Session = Depends(get_db)):
-    return create_log(db, log)
+async def create_new_log(data: LogCreate, db: AsyncSession = Depends(get_db)):
+    return await create_log(db, data)
+
 
 @router.put("/logs/{log_id}", response_model=Log)
-def update_existing_log(id: int, data: LogCreate, db: Session = Depends(get_db)):
-    logUpdate = get_log_by_id(db, id, data)
-    if not logUpdate:
+async def update_existing_log(log_id: int, data: LogCreate, db: AsyncSession = Depends(get_db)):
+    updated = await update_log(db, log_id, data)
+    if not updated:
         raise HTTPException(status_code=404, detail="Log not found")
-    return logUpdate
+    return updated
+
 
 @router.delete("/logs/{log_id}", response_model=Log)
-def delete_user_by_id(id: int, db: Session = Depends(get_db)):
-    deleteLog = get_log_by_id(db, id)
-    if  deleteLog:
-        return deleteLog
-    raise HTTPException(status_code=404, detail="Log not found")    
-        
+async def delete_log_by_id(log_id: int, db: AsyncSession = Depends(get_db)):
+    deleted = await delete_log(db, log_id)
+    if deleted:
+        return deleted
+    raise HTTPException(status_code=404, detail="Log not found")

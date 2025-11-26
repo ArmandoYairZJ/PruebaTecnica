@@ -12,5 +12,5 @@ class log(Base):
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     old_data = Column(JSON, nullable=True)
     new_data = Column(JSON, nullable=True)
-    users = relationship("users", back_populates="log")
-    products = relationship("products", back_populates="log")
+    user = relationship("user", back_populates="logs")
+    product = relationship("product", back_populates="logs")

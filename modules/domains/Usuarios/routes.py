@@ -1,36 +1,47 @@
 from fastapi import APIRouter, Depends, HTTPException
 from modules.domains.Usuarios.schema import UserCreate, User
-from modules.domains.Usuarios.service import create_user, get_user, get_user_id, update_user, delete_user
+from modules.domains.Usuarios.service import (
+    create_user,
+    get_user,
+    get_user_id,
+    update_user,
+    delete_user
+)
 from modules.core.config.db import get_db
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()
 
+
 @router.get("/users", response_model=list[User])
-def get_all_users(db: Session = Depends(get_db)):
-    return get_user(db)
+async def get_all_users(db: AsyncSession = Depends(get_db)):
+    return await get_user(db)
+
 
 @router.get("/users/{user_id}", response_model=User)
-def get_user_by_id(id: int, db: Session = Depends(get_db)):
-    userQuerySet = get_user_id(db, id)
-    if userQuerySet:
-        return userQuerySet
+async def get_user_by_id(user_id: int, db: AsyncSession = Depends(get_db)):
+    user_obj = await get_user_id(db, user_id)
+    if user_obj:
+        return user_obj
     raise HTTPException(status_code=404, detail="User not found")
 
+
 @router.post("/users", response_model=User)
-def create_new_user(data: UserCreate, db: Session = Depends(get_db)):
-    return create_user(db, data)
+async def create_new_user(data: UserCreate, db: AsyncSession = Depends(get_db)):
+    return await create_user(db, data)
+
 
 @router.put("/users/{user_id}", response_model=User)
-def update_user_by_id(userId: int, data: UserCreate, db: Session = Depends(get_db)):
-    userUpdate = update_user(db, userId, data)
-    if not userUpdate:
+async def update_user_by_id(user_id: int, data: UserCreate, db: AsyncSession = Depends(get_db)):
+    user_obj = await update_user(db, user_id, data)
+    if not user_obj:
         raise HTTPException(status_code=404, detail="User not found")
-    return userUpdate
+    return user_obj
+
 
 @router.delete("/users/{user_id}", response_model=User)
-def delete_user_by_id(userId: int, db: Session = Depends(get_db)):
-    userDelete = delete_user(db, userId)
-    if userDelete:
-        return userDelete
+async def delete_user_by_id(user_id: int, db: AsyncSession = Depends(get_db)):
+    user_obj = await delete_user(db, user_id)
+    if user_obj:
+        return user_obj
     raise HTTPException(status_code=404, detail="User not found")
