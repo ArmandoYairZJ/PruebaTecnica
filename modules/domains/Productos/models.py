@@ -14,4 +14,4 @@ class product(Base):
     updated_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now())
     is_deleted = Column(Boolean, default=False)
     delete_at = Column(TIMESTAMP(timezone=True), nullable=True)
-    logs = relationship("logs", back_populates="products")
+    logs = relationship("logs", back_populates="product")
