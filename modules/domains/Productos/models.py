@@ -7,7 +7,6 @@ class product(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, index=True)
-
     precio = Column(Integer, index=True)
     marca = Column(String, index=True)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
