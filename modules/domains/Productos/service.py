@@ -26,12 +26,11 @@ async def update_product(db: AsyncSession, product_id: int, data: ProductCreate)
         select(product).where(product.id == product_id)
     )
     productInstance = result.scalar_one_or_none()
-
     if not productInstance:
         return None
-
     for key, value in data.model_dump().items():
-        setattr(productInstance, key, value)
+        if key !="created_at":
+            setattr(productInstance, key, value)
 
     await db.commit()
     await db.refresh(productInstance)
