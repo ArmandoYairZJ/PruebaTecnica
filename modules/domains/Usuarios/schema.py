@@ -20,7 +20,7 @@ class UserCreate(UserBase):
     password:str
 
 class User(UserBase):
-    id:int
+    id:str
     created_at: datetime
     updated_at: datetime
 
