@@ -1,12 +1,13 @@
 from modules.core.config.db import Base
 from sqlalchemy import Column, Integer, String, TIMESTAMP, func
 from sqlalchemy.orm import relationship
+from uuid import uuid4
 
 class user(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    nombre = Column(String, index=True)
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    username = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     rol = Column(String, index=True)

@@ -4,7 +4,7 @@ from datetime import datetime
 
 class LogBase(BaseModel):
     description: str
-    user_id: int
+    user_id: str
     product_id: int
     old_data: Optional[Any] = None
     new_data: Optional[Any] = None
