@@ -7,9 +7,9 @@ from modules.domains.Logs.service import (
 )
 from modules.core.config.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
+from modules.auth.auth import get_current_user
 
-router = APIRouter()
-
+router =  APIRouter(dependencies=[Depends(get_current_user)]) 
 
 @router.get("/logs", response_model=list[Log])
 async def get_all_logs(db: AsyncSession = Depends(get_db)):
