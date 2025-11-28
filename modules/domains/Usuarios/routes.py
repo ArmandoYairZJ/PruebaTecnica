@@ -8,8 +8,9 @@ from modules.domains.Usuarios.service import (
 )
 from modules.core.config.db import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
+from modules.auth.auth import get_current_user
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(get_current_user)]) 
 
 @router.get("/users", response_model=list[User])
 async def get_all_users(db: AsyncSession = Depends(get_db)):
