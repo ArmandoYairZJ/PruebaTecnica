@@ -22,14 +22,21 @@ async def update_user(db: AsyncSession, userId: str, data: UserCreate):
     if not userInstance:
         return None
     bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    for key, value in data.model_dump().items():
+
+    fields = data.model_dump(exclude_unset=True, exclude_none=True)
+    for key, value in fields.items():
+        if key == "created_at":
+            continue
         if key == "rol" and hasattr(value, "value"):
-            value = value.value  
-        if key == "password" and value:
+            value = value.value
+        if key == "password":
+            if not value:
+                continue
             value = bcrypt_context.hash(value[:72])
             key = "hashed_password"
-        if key !="created_at":
-            setattr(userInstance, key, value)
+        if isinstance(value, str) and value == "":
+            continue
+        setattr(userInstance, key, value)
     await db.commit()
     await db.refresh(userInstance)
     return userInstance

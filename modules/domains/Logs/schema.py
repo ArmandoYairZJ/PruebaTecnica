@@ -3,7 +3,7 @@ from typing import Optional, Any
 from datetime import datetime
 
 class LogBase(BaseModel):
-    description: str
+    descripcion: str
     user_id: str
     product_id: int
     old_data: Optional[Any] = None
