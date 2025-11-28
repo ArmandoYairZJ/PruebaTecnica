@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from enum import Enum
 from datetime import datetime
+from typing import Optional
 
 class rolEnum(Enum):
     ADMIN = "ADMIN"
@@ -23,6 +24,8 @@ class User(UserBase):
     id:str
     created_at: datetime
     updated_at: datetime
+    is_deleted: bool
+    delete_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
