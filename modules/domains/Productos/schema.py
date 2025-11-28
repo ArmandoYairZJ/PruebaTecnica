@@ -6,6 +6,7 @@ class ProductBase(BaseModel):
     nombre: str
     precio: float
     marca: str
+    stock: int
 
 class ProductCreate(ProductBase):
     pass

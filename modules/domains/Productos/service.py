@@ -9,6 +9,14 @@ from sqlalchemy import select
 
 
 async def create_product(db: AsyncSession, data: ProductCreate):
+    fields = data.model_dump(exclude_unset=True, exclude_none=True)
+    if "stock" in fields:
+        try:
+            fields["stock"] = int(fields["stock"])
+        except (TypeError, ValueError):
+            raise HTTPException(status_code=400, detail="El campo 'stock' debe ser un entero")
+        if fields["stock"] < 0:
+            raise HTTPException(status_code=400, detail="El stock no puede ser negativo")
     productInstance = product(**data.model_dump())
     db.add(productInstance)
     await db.commit()
@@ -46,6 +54,14 @@ async def update_product(db: AsyncSession, product_id: int, data: ProductCreate,
     for key, value in fields.items():
         if key == "created_at":  
             continue
+
+        if key == "stock":
+            try:
+                value = int(value)
+            except (TypeError, ValueError):
+                raise HTTPException(status_code=400, detail="El campo 'stock' debe ser un entero")
+            if value < 0:
+                raise HTTPException(status_code=400, detail="El stock no puede ser negativo")
         
         if isinstance(value, str) and value == "":
             continue
