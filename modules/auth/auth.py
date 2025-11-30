@@ -10,6 +10,7 @@ from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from sqlalchemy.future import select
+from typing import Optional
 
 router = APIRouter(
     prefix="/auth",
@@ -23,6 +24,7 @@ class CreateUserRequest(BaseModel):
     email: str
     username: str
     password: str
+    rol: str | None = None
 
 class Token(BaseModel):
     access_token: str
@@ -32,11 +34,12 @@ db_dependency = Annotated[AsyncSession, Depends(get_db)]
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
+    rolSinEspe = create_user_request.rol or "USER"
     create_user_model = user(
         username=create_user_request.username,
         email=create_user_request.email,
         hashed_password=bcrypt_context.hash(create_user_request.password[:72]),
-        rol="USER"
+        rol=rolSinEspe
     )
     db.add(create_user_model)
     await db.commit()
