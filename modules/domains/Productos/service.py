@@ -29,9 +29,12 @@ async def get_all_products(db: AsyncSession):
 
 async def get_product_by_id(db: AsyncSession, product_id: int):
     result = await db.execute(
-        select(product).where(product.id == product_id)
+        select(product).where(
+            product.id == product_id,
+            product.is_deleted == False
+        )
     )
-    return result.scalar_one_or_none()
+    return result.scalar_one_or_none() 
 
 async def update_product(db: AsyncSession, product_id: int, data: ProductCreate, userId: str, descripcion: str):
     result = await db.execute(
