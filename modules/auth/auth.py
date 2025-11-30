@@ -60,6 +60,11 @@ async def login_for_access_token(data: Annotated[OAuth2PasswordRequestForm, Depe
     token = create_access_token(user_obj.email, user_obj.id, timedelta(minutes=30))
     return {"access_token": token, "token_type": "bearer"} 
 
+@router.get("/email/{email}", response_model=bool)
+async def get_user_by_email_route(email: str, db: db_dependency):
+    userObj = await get_user_by_email(db, email)
+    return userObj is not None
+
 async def authenticate_user(db: AsyncSession, email: str, password: str):
     result = await db.execute(
         select(user).where(user.email == email)
@@ -105,3 +110,9 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate user",
         )
+
+async def get_user_by_email(db: AsyncSession, email: str):
+    result = await db.execute(
+        select(user).where(user.email == email)
+    )
+    return result.scalars().first()
