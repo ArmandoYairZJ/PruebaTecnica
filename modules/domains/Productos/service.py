@@ -24,7 +24,11 @@ async def create_product(db: AsyncSession, data: ProductCreate):
     return productInstance
 
 async def get_all_products(db: AsyncSession):
-    result = await db.execute(select(product).where(product.is_deleted == False))
+    result = await db.execute(
+        select(product)
+        .where(product.is_deleted == False)
+        .order_by(product.id)
+    )
     return result.scalars().all()
 
 async def get_product_by_id(db: AsyncSession, product_id: int):
