@@ -8,7 +8,11 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 
 async def get_user(db:AsyncSession):
-    result = await db.execute(select(user).where(user.is_deleted == False))
+    result = await db.execute(
+        select(user)
+        .where(user.is_deleted == False)
+        .order_by(user.id)
+    ) 
     return result.scalars().all()
 
 async def get_user_id(db:AsyncSession, userId: int):
